@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         email: exist.email,
       },
       process.env.SECRET_KEY,
-      // { expiresIn: "10m" }
+       { expiresIn: "10m" }
     );
 
     const response =  NextResponse.json(
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
       secure : process.env.NODE_ENV === "production",
       sameSite : "strict",
       path : "/",
-      // maxAge : 60 * 10
+      maxAge : 60 * 10
     })
     return response;
   } catch (error) {
