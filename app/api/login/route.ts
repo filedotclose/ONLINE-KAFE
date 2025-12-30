@@ -23,8 +23,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email, password } = parsedBody.data;
-
+    const {password } = parsedBody.data;
+    let  {email} = parsedBody.data;
+    email = email.toLowerCase();
     const exist = await User.findOne({ email });
 
     if (!exist) {

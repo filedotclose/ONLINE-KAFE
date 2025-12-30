@@ -20,7 +20,8 @@ export async function POST(req : NextRequest){
         if(!parsedBody.success){
             return NextResponse.json({error : "Enter a Valid Password"},{status : 500})
         }
-        const {name, email, password, confirmPassword} = parsedBody.data;
+        const {name,  password, confirmPassword} = parsedBody.data;
+        let {email} = parsedBody.data;
         
         if (!email.endsWith("@kiit.ac.in")) {
             return NextResponse.json({ error: "Only Kiit addresses are allowed." }, { status: 500 });
@@ -30,7 +31,7 @@ export async function POST(req : NextRequest){
                 {error : "Passwords do not match"}, {status : 500}
             )
         }
-
+        email = email.toLocaleLowerCase();
         const existingUser = await User.findOne({email});
         if(existingUser){
             return NextResponse.json({error : "you already exist"}, {status : 500})
@@ -39,8 +40,8 @@ export async function POST(req : NextRequest){
         const hashedPassword = await bcrypt.hash(password, 11);
         
         const newUser = await User.create({
-            name,
-            email,
+            name ,
+            email : email.toLowerCase(),
             password : hashedPassword
         })
         // await newUser.save();
