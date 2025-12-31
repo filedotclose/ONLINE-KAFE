@@ -37,7 +37,7 @@ export default function Cart() {
     };
 
     fetchCart();
-  }, [items]);
+  }, []);
 
   async function clearCart() {
     setLoading(true)
@@ -113,7 +113,7 @@ export default function Cart() {
             ))}
           </ul>
 
-          <div className="mt-6 border-t pt-4 flex justify-between">
+          <div className="mt-6 mb-6 border-t pt-4 flex justify-between">
             <span className="font-bold text-lg">Total</span>
             <span className="font-bold text-lg text-emerald-600">
               ₹{cartTotal}
