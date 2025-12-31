@@ -94,7 +94,7 @@ export default function Menu() {
     setIsCartOpen(true);
   };
 
-  // purely frontend: change quantity
+  //  change quantity
   const updateQuantity = (menuItemId: string, delta: number) => {
     setCart(prevCart => {
       const index = prevCart.findIndex(ci => ci.menuItemId === menuItemId);
@@ -115,16 +115,16 @@ export default function Menu() {
     });
   };
 
-  // purely frontend: remove item
+  // remove item from react csrt
   const removeFromCart = (menuItemId: string) => {
     setCart(prevCart => prevCart.filter(ci => ci.menuItemId !== menuItemId));
   };
 
-  // one-shot save to backend
+  
   const saveCartToBackend = async () => {
     try {
       setSaving(true);
-
+      // to remove duplicares
       const deduped: CartItem[] = [];
       cart.forEach(item => {
         const i = deduped.findIndex(d => d.menuItemId === item.menuItemId);
