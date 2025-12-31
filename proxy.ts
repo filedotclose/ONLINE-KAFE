@@ -3,14 +3,14 @@ import { jwtVerify } from "jose";
 
 export async function proxy(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-
+  console.log(" MIDDLEWARE TRIGGERED"); 
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
   try {
     const secret = new TextEncoder().encode(process.env.SECRET_KEY!);
-    await jwtVerify(token, secret); 
+    await jwtVerify(token, secret);
     return NextResponse.next();
   } catch (err) {
     console.error("JWT verification failed:", err);
@@ -19,7 +19,10 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|login|register$).*)",
-  ],
+  matcher: ["/dashboard",
+    "/history",
+    "/dashboard/cart",
+    "/menu/:path*",
+    "/checkout",
+  ]
 };
