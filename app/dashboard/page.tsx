@@ -53,7 +53,7 @@ export default function Dashboard() {
       <h2 className="text-3xl my-5 sm:text-4xl font-extrabold text-emerald-600 mb-10 text-center">
         Explore Our Categories
       </h2>
-      <div className="grid gap-8  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+      <div className="grid gap-8  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mb-20">
         {categories.map((cat) => (
           <div
             key={cat._id}

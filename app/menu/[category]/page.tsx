@@ -4,19 +4,21 @@ import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
 import { useRouter } from "next/navigation";
 import { DiVim } from "react-icons/di";
+import { setDefaultAutoSelectFamily } from "net";
 
 export default function Menu() {
   const { category } = useParams();
   const [items, setItems] = useState<MenuItem[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const router = useRouter();
 
-  // fetch menu items from ehejwef
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem("token");
         const res = await fetch(`/api/menu/${category}`, {
           method: "GET",
@@ -35,6 +37,8 @@ export default function Menu() {
         setItems(data.cat || []);
       } catch (err) {
         console.error("Error fetching categories:", err);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -168,10 +172,18 @@ export default function Menu() {
     0
   );
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[90vh]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-emerald-500"></div>
+      </div>
+    );
+  }
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-6 relative">
       <Navbar />
-      <div className="h-12 w-12 flex justify-center items-center bg-emerald-600 absolute mt-5 rounded-full hover:scale-105 cursor-pointer"
+      <div className="hidden h-12 w-12 sm:flex justify-center items-center bg-emerald-600 absolute mt-5 rounded-full hover:scale-105 cursor-pointer"
         onClick={() => {
           router.push('/dashboard');
         }}
@@ -245,7 +257,7 @@ export default function Menu() {
       </div>
       {/* cart side bar  */}
       {isCartOpen && (
-        <div className="fixed right-0 top-36 h-full w-80 bg-white shadow-2xl p-6 overflow-y-auto transition-transform duration-300">
+        <div className="fixed right-0 rounded-xl border-2 border-green-600 top-36 h-full w-80 bg-white shadow-2xl p-6 overflow-y-auto transition-transform duration-300">
           <h2 className="text-2xl font-bold mb-4 text-emerald-600">
             Your Order
           </h2>

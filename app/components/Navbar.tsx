@@ -28,7 +28,7 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14 sm:h-16 md:h-18 lg:h-20">
                     <h1 className="text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-extrabold truncate text-emerald-500">
-                        KIIT KAFE
+                        <a href="/dashboard">KIIT KAFE</a>
                     </h1>
                     <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 relative">
                         <div className="relative flex items-center group">
