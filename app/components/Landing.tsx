@@ -22,7 +22,7 @@ export default function LandingHero() {
           Welcome to KIIT KAFE
         </h1>
 
-        <p className="mt-6 border px-3 text-white font-extrabold py-1 rounded-full bg-[#2b7a1f] shadow-green-500 shadow-2xl sm:text-lg  text-center">
+        <p className="mt-6 px-3 font-extrabold py-1 text-[#2b7a1f] transition ease-in hover:shadow-green-500 shadow-2xl sm:text-lg  text-center">
           One stop solution for all the snacks
         </p>
 
