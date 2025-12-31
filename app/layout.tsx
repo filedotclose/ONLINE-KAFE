@@ -12,7 +12,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className="scroll-smooth">
       <body>
         {children}
-        </body>
+        <footer className="bg-emerald-600 text-white py-6 px-4 mt-32">
+          <div className="text-center text-4xl font-bold tracking-wider">
+            <p>Made with love</p>
+          </div>
+          <div className="mt-6 text-center text-xs">
+            © {new Date().getFullYear()} KIIT Canteen. All rights reserved.
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }

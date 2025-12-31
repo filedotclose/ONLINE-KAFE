@@ -19,6 +19,7 @@ declare global {
     name: string;
     price: number;
     description?: string;
+    available? : boolean;
   }
 
   interface CartItem {

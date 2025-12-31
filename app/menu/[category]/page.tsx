@@ -3,6 +3,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
 import { useRouter } from "next/navigation";
+import { DiVim } from "react-icons/di";
 
 export default function Menu() {
   const { category } = useParams();
@@ -182,9 +183,12 @@ export default function Menu() {
       </h1>
 
       {/* Menu Grid */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {items.length > 0 ? (
-          items.map(item => (
+          items.map(item => 
+            item.available ? (
+            (
             <div
               key={item._id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition duration-300"
@@ -218,7 +222,12 @@ export default function Menu() {
                 </div>
               </div>
             </div>
-          ))
+          )) : (
+              <div>
+                <p>Out of stock</p>
+              </div>
+          )
+        )
         ) : (
           <p className="text-center text-gray-500 col-span-full">
             No items found in this category.
