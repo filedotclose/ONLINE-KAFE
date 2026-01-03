@@ -98,7 +98,7 @@ export default function OrderHistoryPage() {
                       Order ID: {order.orderId}
                     </p>
                     <p className="text-sm text-gray-500">
-                      Date :{(order.iat)?.toLocaleString()}
+                      Date :{(order.iat).toLocaleString()}
                     </p>
                   </div>
                   <div className="text-right">
