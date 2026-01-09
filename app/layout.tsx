@@ -3,6 +3,9 @@ import "./globals.css";
 import type { ReactNode } from "react";
 export const metadata = {
   title: "KIIT KAFE",
+  icons: {
+    icon:"/favicon.png"
+  },
   description: "Online canteen for KIIT students",
 };
 
