@@ -15,11 +15,16 @@ export default function Navbar() {
         if (storedUser) setUser(JSON.parse(storedUser));
     }, []);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token"); 
         setUser(null);
         router.push("/login");
+
+        const res  = await fetch("/api/logout", { method: "POST" });
+        if(!res.ok){
+            console.log("error logging out");
+        }
     };
 
     return (
