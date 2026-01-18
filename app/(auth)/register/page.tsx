@@ -22,7 +22,13 @@ export default function RegisterPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-
+    if(!name || !email || !password || !confirmPassword){
+      setError("Enter all the details");
+    }
+    if(email.includes("Admin") || email.includes("admin")){
+      setError(`Cannot create a Admin`);
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;

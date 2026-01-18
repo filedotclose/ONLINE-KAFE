@@ -14,13 +14,15 @@ declare global {
     icon: string;
   }
 
-  interface MenuItem {
-    _id: string;
-    name: string;
-    price: number;
-    description?: string;
-    available? : boolean;
-  }
+ interface MenuItem {
+   _id: string;
+   name: string;
+   price: number;
+   categoryId: string;
+   description?: string;
+   imageUrl?: string;
+   available: boolean;
+ }
 
   interface CartItem {
     menuItemId?: string;

@@ -21,6 +21,7 @@ export async function proxy(req: NextRequest) {
 export const config = {
   matcher: ["/dashboard",
     "/history",
+    "/admin",
     "/dashboard/cart",
     "/menu/:path*",
     "/checkout",

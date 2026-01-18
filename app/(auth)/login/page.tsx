@@ -1,68 +1,82 @@
 "use client"
 
 
-import React,{ReactEventHandler, useState} from "react"
+import React, { ReactEventHandler, useState } from "react"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 
-export default function LoginPage(){
-    
+export default function LoginPage() {
+
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState <string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if(!password || !email){
+    if (!password || !email || !name) {
       setError("All fields are required");
+      return;
     }
 
-    try{
+    try {
       setLoading(true);
-      const res = await fetch('/api/login',{
-        method : "POST",
-        body : JSON.stringify({email, password})
+      const res = await fetch('/api/login', {
+        method: "POST",
+        headers:{
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({ email, password })
       })
       console.log(res);
 
       const data = await res.json();
-      if(!res.ok){
+
+      console.log(data.user.name);
+      if (!res.ok) {
         setError(data.error);
+        console.log(data.error);
         setLoading(false);
-      }else{
+      } else {
         console.log(data.message);
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push('/dashboard')
-        
+        if (data.user?.name?.includes("Admin") || data.user?.email?.includes("admin")) {
+          localStorage.setItem("Admin", JSON.stringify(data.user));
+          router.push("/admin");
+        } else {
+          router.push("/dashboard")
+        }
+
+
       }
-    }catch(err){
+    } catch (err) {
       console.log("this is the error", err);
+      setLoading(false);
       setError("An error has occured");
     }
   }
-  return(
+  return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-lime-300 to-emerald-400">
       <div className="mx-4 w-full max-w-md ">
         <div className="hidden lg:block absolute top-10 left-10 bg-white px-5 py-2 rounded-2xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:shadow-2xl">
-                    <Link href={'/'}>
-                    <Image
-                    className=" "
-                    src={'/logo.png'}
-                    alt="logo"
-                    width={150}
-                    height={150}   
-                ></Image>
-                </Link>
-                </div>
+          <Link href={'/'}>
+            <Image
+              className=" "
+              src={'/logo.png'}
+              alt="logo"
+              width={150}
+              height={150}
+            ></Image>
+          </Link>
+        </div>
         <div className="rounded-3xl p-[3px] bg-gradient-to-r from-[#8AF35C] to-[#C9F27A] shadow-xl">
           <div className="rounded-[26px] bg-white px-6 py-8 sm:px-8 sm:py-10">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-emerald-700">
@@ -83,7 +97,6 @@ export default function LoginPage(){
                 <input
                   id="name"
                   type="text"
-                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="mt-1 w-full rounded-full border border-emerald-100 bg-emerald-50/30 px-4 py-2.5 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200"
@@ -103,7 +116,7 @@ export default function LoginPage(){
                   type="email"
                   required
                   value={email}
-                  
+
                   onChange={(e) => setEmail(e.target.value)}
                   className=" mt-1 w-full rounded-full border border-emerald-100 bg-emerald-50/30 px-4 py-2.5 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200"
                   placeholder="you@kiit.ac.in"
@@ -119,23 +132,23 @@ export default function LoginPage(){
                 </label>
                 <input
                   id="password"
-                  type={showPassword? "text" : "password"}
+                  type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="mt-1 w-full rounded-full border border-emerald-100 bg-emerald-50/30 px-4 py-2.5 text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-200"
                   placeholder="••••••••"
                 />
-                  <span className="absolute right-3 top-11 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
-                  {showPassword? (
-                  <FaRegEye 
-                  onClick={()=>setShowPassword(false)}/> ):
-                  (
-                    <FaRegEyeSlash
-                    onClick={()=> setShowPassword(true)}
-                    />
-                  )
-                }
+                <span className="absolute right-3 top-11 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                  {showPassword ? (
+                    <FaRegEye
+                      onClick={() => setShowPassword(false)} />) :
+                    (
+                      <FaRegEyeSlash
+                        onClick={() => setShowPassword(true)}
+                      />
+                    )
+                  }
                 </span>
               </div>
 
@@ -148,14 +161,14 @@ export default function LoginPage(){
               >
                 {loading ? "Logging in..." : "Log in"}
               </button>
-               <p className="mt-4 text-xs text-center text-gray-500">
-                 Dont have an account?{" "}
-              <a href="/register" className="font-medium text-emerald-700 hover:underline">
-                Register
-              </a>
-            </p>
+              <p className="mt-4 text-xs text-center text-gray-500">
+                Dont have an account?{" "}
+                <a href="/register" className="font-medium text-emerald-700 hover:underline">
+                  Register
+                </a>
+              </p>
             </form>
-            </div>
+          </div>
         </div>
       </div>
     </main>

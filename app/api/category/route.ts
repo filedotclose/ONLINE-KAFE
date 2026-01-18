@@ -6,11 +6,11 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET(req : NextRequest) {
     await connectDB();
     console.log("category requested");
-    const token = req.headers.get("authorization")?.split(" ")[1];
-    const user = token ? await decodedToken(token) : null
-    if(user == null){
-        return NextResponse.json({error : "unauthorized"},{status : 401});
-    }
+    // const token = req.headers.get("authorization")?.split(" ")[1];
+    // const user = token ? await decodedToken(token) : null
+    // if(user == null){
+    //     return NextResponse.json({error : "unauthorized"},{status : 401});
+    // }
 
     try{
         const category = await Category.find({});
