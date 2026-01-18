@@ -12,7 +12,7 @@ export default function MenuItemsPage() {
   const [price, setPrice] = useState<number>(0);
   const [description, setDescription] = useState("");
 
-  /* ---------------- Fetch Categories ---------------- */
+  
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await fetch("/api/category");
@@ -23,7 +23,7 @@ export default function MenuItemsPage() {
     fetchCategories();
   }, []);
 
-  /* ---------------- Fetch Menu Items ---------------- */
+ 
   useEffect(() => {
     if (!selectedCategory) return;
 
@@ -110,7 +110,7 @@ export default function MenuItemsPage() {
           Manage Menu Items
         </h1>
 
-        {/* -------- Category Select -------- */}
+        
         <div className="mb-8">
           <label className="block mb-2 font-medium">
             Select Category
@@ -129,7 +129,7 @@ export default function MenuItemsPage() {
           </select>
         </div>
 
-        {/* -------- Add Menu Item -------- */}
+        
         {selectedCategory && (
           <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6 mb-10">
             <h2 className="text-xl font-semibold mb-4">
@@ -181,7 +181,7 @@ export default function MenuItemsPage() {
           </div>
         )}
 
-        {/* -------- Menu Items List -------- */}
+       
         {selectedCategory && (
           <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6">
             <h2 className="text-xl font-semibold mb-4">
