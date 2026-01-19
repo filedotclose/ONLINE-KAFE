@@ -102,142 +102,147 @@ export default function MenuItemsPage() {
   };
 
   return (
-    <>
-      <Navbar />
+   <>
+  <Navbar />
 
-      <div className="max-w-6xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold text-center text-green-600 mb-10">
-          Manage Menu Items
-        </h1>
+  <div className="max-w-6xl mx-auto px-4 py-10">
+    {/* Page Title */}
+    <h1 className="text-3xl font-bold text-center text-emerald-600 mb-12">
+      Manage Menu Items
+    </h1>
 
-        
-        <div className="mb-8">
-          <label className="block mb-2 font-medium">
-            Select Category
-          </label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full border border-emerald-600 rounded-lg p-2"
-          >
-            <option>Select a category</option>
-            {categories.map((cat) => (
-              <option key={cat._id} value={cat._id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
+    {/* Category Selector */}
+    <div className="bg-white border border-emerald-600 rounded-xl shadow-sm p-6 mb-10">
+      <label className="block mb-3 font-semibold text-emerald-700">
+        Select Category
+      </label>
+      <select
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
+        className="w-full border border-green-300  focus:border-emerald-500 focus:ring-emerald-500 rounded-lg p-3"
+      >
+        <option className="text-green-600" value="">Select a category</option>
+        {categories.map((cat) => (
+          <option key={cat._id} value={cat._id}>
+            {cat.name}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Add Menu Item */}
+    {selectedCategory && (
+      <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6 mb-12">
+        <h2 className="text-xl font-semibold mb-6 text-gray-800">
+          Add Menu Item
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input
+            type="text"
+            placeholder="Item name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border border-gray-300 rounded-lg p-3 focus:ring-emerald-500 focus:border-emerald-500"
+          />
+
+          <input
+            type="number"
+            placeholder="Price"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+            className="border border-gray-300 rounded-lg p-3 focus:ring-emerald-500 focus:border-emerald-500"
+          />
         </div>
 
-        
-        {selectedCategory && (
-          <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6 mb-10">
-            <h2 className="text-xl font-semibold mb-4">
-              Add Menu Item
-            </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <input
+            placeholder="Description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border border-gray-300 rounded-lg p-3 focus:ring-emerald-500 focus:border-emerald-500"
+          />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                placeholder="Item name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="border rounded p-2"
-              />
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={ImageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="border border-gray-300 rounded-lg p-3 focus:ring-emerald-500 focus:border-emerald-500"
+          />
+        </div>
 
-              <input
-                type="number"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                className="border rounded p-2"
-              />
-            </div>
+        <button
+          onClick={addMenuItem}
+          className="mt-8 w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-lg transition"
+        >
+          Add Item
+        </button>
+      </div>
+    )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-              placeholder="Description (optional)"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="border rounded p-2 w-full mt-4"
-            />
+    {/* Menu Items Table */}
+    {selectedCategory && (
+      <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6">
+        <h2 className="text-xl font-semibold mb-6 text-gray-800">
+          Existing Menu Items
+        </h2>
 
-              <input 
-              type="text" 
-              placeholder="Image Url"
-              value = {ImageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              className = "border rounded p-2 w-full mt-4"
-              />
-
-            </div>
-
-            <button
-              onClick={addMenuItem}
-              className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg"
-            >
-              Add Item
-            </button>
-          </div>
-        )}
-
-       
-        {selectedCategory && (
-          <div className="bg-white border border-emerald-600 rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">
-              Existing Menu Items
-            </h2>
-
-            {menuItems.length === 0 ? (
-              <p className="text-gray-500">
-                No items in this category.
-              </p>
-            ) : (
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="border-b">
-                    <th className="py-2">Name</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Action</th>
+        {menuItems.length === 0 ? (
+          <p className="text-gray-500 text-center py-6">
+            No items in this category.
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b text-gray-600">
+                  <th className="py-3">Name</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th className="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {menuItems.map((item) => (
+                  <tr
+                    key={item._id}
+                    className="border-b hover:bg-gray-50 transition"
+                  >
+                    <td className="py-3 font-medium">{item.name}</td>
+                    <td>₹{item.price}</td>
+                    <td>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          item.available
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {item.available ? "Available" : "Disabled"}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <button
+                        onClick={() => toggleAvailability(item._id)}
+                        className={`px-4 py-2 rounded-lg text-white font-medium transition ${
+                          item.available
+                            ? "bg-red-500 hover:bg-red-600"
+                            : "bg-emerald-500 hover:bg-emerald-600"
+                        }`}
+                      >
+                        {item.available ? "Disable" : "Enable"}
+                      </button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {menuItems.map((item) => (
-                    <tr key={item._id} className="border-b">
-                      <td className="py-2">{item.name}</td>
-                      <td>₹{item.price}</td>
-                      <td>
-                        {item.available ? (
-                          <span className="text-green-600 font-medium">
-                            Available
-                          </span>
-                        ) : (
-                          <span className="text-red-600 font-medium">
-                            Disabled
-                          </span>
-                        )}
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => toggleAvailability(item._id)}
-                          className={`px-4 py-1 rounded text-white ${
-                            item.available
-                              ? "bg-red-500 hover:bg-red-600"
-                              : "bg-green-500 hover:bg-green-600"
-                          }`}
-                        >
-                          {item.available ? "Disable" : "Enable"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
-    </>
+    )}
+  </div>
+</>
   );
 }

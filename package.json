@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",
     "jose": "^6.1.3",
