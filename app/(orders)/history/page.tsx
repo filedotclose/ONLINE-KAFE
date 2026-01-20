@@ -106,12 +106,12 @@ export default function OrderHistoryPage() {
                       ₹{order.totalprice}
                     </p>
                     <span
-                      className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full ${order.payment === "paid"
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-yellow-100 text-yellow-700"
+                      className={`inline-block mt-1 text-xs px-2 py-0.5 rounded-full ${order.payment === "rejected" ? "bg-white border border-red-500 text-red-600" : ""} ${order.payment === "paid"
+                          ? "bg-white border border-green-500 text-emerald-700"
+                          : "bg-white border border-yellow-400 text-yellow-700"
                         }`}
                     >
-                      {order.payment === "paid" ? "Paid" : "Unpaid"}
+                      {order.payment}
                     </span>
                   </div>
                 </div>

@@ -44,6 +44,7 @@ declare global {
     _id: string;
     orderId: string;
     orderItems: OrderItem[];
+    orderId : string;
     totalprice: number;
     payment: string;
     iat: string;
