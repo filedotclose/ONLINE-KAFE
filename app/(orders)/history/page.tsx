@@ -17,7 +17,7 @@ export default function OrderHistoryPage() {
       const res = await fetch("/api/orders/history", {
         method: "GET",
         headers: {
-          Authorization: token ? `Bearer ${token}` : "",
+          "authorization": token ? `Bearer ${token}` : "",
           "Content-Type": "application/json"
         },
       });
@@ -41,7 +41,7 @@ export default function OrderHistoryPage() {
   useEffect(() => {
     fetchOrders();
   }, []);
-
+  console.log(orders);
   const clearHistory = async () => {
     try {
       setLoading(true);
@@ -56,7 +56,7 @@ export default function OrderHistoryPage() {
       if (res.ok) {
         const data = await res.json();
         console.log(data);
-        // setOrders(data.orders);
+        //setOrders(data.orders);
       }
     } catch (err) {
       console.log("error is", err)
@@ -80,7 +80,7 @@ export default function OrderHistoryPage() {
           <div className="py-16 text-center text-gray-500">
             Loading your orders...
           </div>
-        ) : orders?.length === 0 ? (
+        ) : orders?.length == 0 ? (
           <div className="py-16 text-center text-gray-500">
             You have not placed any orders yet.
           </div>

@@ -2,6 +2,7 @@ import { decodedToken } from "@/app/api/auth";
 import { connectDB } from "@/app/api/mongodb";
 import Order from "@/models/order";
 import Cart from "@/models/Cart";
+import history from "@/models/history";
 import { NextResponse,NextRequest } from "next/server";
 
 
@@ -24,7 +25,15 @@ export async function POST(req:NextRequest) {
             payment : "unpaid",
             orderId : OID
         })
+        const newHistory = new history({
+            userId : user.id,
+            orderItems : cart.cartItems,
+            totalprice : cart.totalprice,
+            payment : "unpaid",
+            orderId : OID
+        })
         await newOrder.save();
+        await newHistory.save();
         
         console.log(newOrder.orderId)
         await Cart.deleteOne({userId : user.id})

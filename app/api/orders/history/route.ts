@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/app/api/mongodb";
 import { decodedToken } from "@/app/api/auth";
-import Order from "@/models/order";
+import history from "@/models/history";
 
 export async function GET(req: Request) {
   await connectDB();
@@ -15,13 +15,13 @@ export async function GET(req: Request) {
   }
 
   try {
-    const orders = await Order.find({ userId: user.id }); // use find, not findOne
-    if (!orders || orders.length === 0) {
-      return NextResponse.json({ error: "no orders found" }, { status: 404 });
+    const historys = await history.find({ userId: user.id }); // use find, not findOne
+    if (!historys || historys.length === 0) {
+      return NextResponse.json({ error: "no historys found" }, { status: 404 });
     }
-    return NextResponse.json({ orders }, { status: 200 });
+    return NextResponse.json({ historys }, { status: 200 });
   } catch (error: any) {
-    console.error("Error fetching orders:", error.message);
-    return NextResponse.json({ error: "cannot fetch orders" }, { status: 500 });
+    console.error("Error fetching historys:", error.message);
+    return NextResponse.json({ error: "cannot fetch historys" }, { status: 500 });
   }
 }
