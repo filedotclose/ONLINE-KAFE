@@ -129,7 +129,7 @@ export default function Menu() {
   const saveCartToBackend = async () => {
     try {
       setSaving(true);
-      // to remove duplicares
+      // remove duplicares
       const deduped: CartItem[] = [];
       cart.forEach(item => {
         const i = deduped.findIndex(d => d.menuItemId === item.menuItemId);
@@ -207,7 +207,7 @@ export default function Menu() {
             >
               <div className="h-48 w-full overflow-hidden">
                 <img
-                  src={`${item.imageUrl}`}
+                  src={`/${item.imageUrl}`}
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />
