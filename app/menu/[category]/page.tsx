@@ -207,7 +207,7 @@ export default function Menu() {
             >
               <div className="h-48 w-full overflow-hidden">
                 <img
-                  src={`/${item.name}.png`}
+                  src={`${item.imageUrl}`}
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />

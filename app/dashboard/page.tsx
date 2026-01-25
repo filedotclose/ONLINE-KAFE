@@ -54,52 +54,6 @@ export default function Dashboard() {
     fetchCategories();
   }, []);
 
-  const handleAddCategory = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch("/api/category/Insert", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: newName, icons: newIcon }),
-      });
-      const data = await res.json();
-      console.log(data.message || data.error);
-      fetchCategories();
-    }
-    catch (err) {
-      console.log("Error" + err);
-    } finally {
-      setLoading(false);
-
-    }
-  };
-
-   const handleDeleteCategory = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      const res = await fetch("/api/category/delete", {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: deleteName }),
-      });
-      const data = await res.json();
-      console.log(data.message || data.error);
-    } catch (err) {
-      console.log("Error" + err);
-    } finally {
-      setLoading(false);
-      fetchCategories();
-    }
-  };
-
-
 
   if (loading) {
     return (
@@ -116,7 +70,6 @@ export default function Dashboard() {
       <h2 className="text-3xl my-5 sm:text-4xl font-extrabold text-emerald-600 mb-10 text-center">
         Explore Our Categories
       </h2>
-      {/* admin use */}
       
       <div className="grid gap-8  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 mb-20">
         {categories.map((cat) => (
@@ -129,7 +82,7 @@ export default function Dashboard() {
           >
 
             <img
-              src={`/${cat.name}.png`}
+              src={`${cat.icon}`}
               alt="issue"
               className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
             />
