@@ -38,7 +38,7 @@ export default function AdminOrdersPage() {
 
     fetchOrders();
   }, []);
-
+  
   const updatePayment = async (
     mongoId: string,
     payment: "paid" | "unpaid" | "rejected"

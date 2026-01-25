@@ -30,7 +30,8 @@ export default function OrderHistoryPage() {
       }
 
       const data = await res.json();
-      setOrders(data.orders || []);
+      setOrders(data.history || []);
+      console.log(orders);
     } catch (err) {
       console.log("Error fetching orders:", err);
       setOrders([]);

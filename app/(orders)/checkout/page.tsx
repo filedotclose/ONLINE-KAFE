@@ -232,8 +232,11 @@ export default function Checkout() {
         {currentStep === "waiting-admin" && (
           <div className="text-center mt-24 transition-all duration-500">
             <h2 className="text-2xl font-bold text-emerald-600">
-              Waiting for Admin Approval
+              Pay at this QR / upi id and wait for approval
             </h2>
+            <p>
+              <img src="/qrcode.png" alt="" />
+            </p>
             <p className="mt-4 text-gray-600">
               Order #{orderDisplayId}
             </p>
@@ -255,7 +258,7 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* SUCCESS (UNCHANGED LOGIC) */}
+        {/* SUCCESS */}
         {currentStep === "payment-success" && (
           <div className="text-center mt-16 transition-all duration-500 mb-14">
             <div className="bg-white rounded-3xl shadow-2xl border-2 border-emerald-600 p-8 flex flex-col justify-center items-center">
@@ -271,7 +274,7 @@ export default function Checkout() {
               <p className="text-2xl font-bold text-emerald-600 mb-6">
                 You paid : ₹{cartTotal}
               </p>
-              <p className="text-center text-xl p-1 px-2 rounded-xl font-bold text-gray-100 bg-yellow-300  mb-6">
+              <p className="text-center text-xl p-1 px-3 rounded-xl hover:bg-red-500 hover:text-white transition ease-in font-bold text-green-700 border border-green-600  mb-6">
                 Please collect your order
               </p>
               <button
@@ -294,10 +297,11 @@ export default function Checkout() {
               onClick={() => {
                 transitionLock.current = false;
                 setCurrentStep("cart");
+                router.push("/dashboard")
               }}
               className="mt-6 border px-6 py-3 rounded-xl"
             >
-              Back to Cart
+              Back to Home
             </button>
           </div>
         )}
