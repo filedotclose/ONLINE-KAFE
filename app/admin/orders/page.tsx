@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "@/app/components/Navbar";
-
+import { useRouter } from "next/navigation";
 interface OrderItem {
   menuItem: string;
   quantity: number;
@@ -12,7 +12,7 @@ interface OrderItem {
 
 interface Order {
   _id: string;          // isko monogId ki tarah 
-  orderId: string;      
+  orderId: string;
   orderItems: OrderItem[];
   totalprice: number;
   payment: "paid" | "unpaid" | "rejected";
@@ -21,11 +21,11 @@ interface Order {
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchOrders = async () => {
       const res = await fetch("/api/admin/orders", {
-        method : "GET",
+        method: "GET",
         headers: {
           "authorization": `Bearer ${localStorage.getItem("token")}`,
         },
@@ -38,7 +38,7 @@ export default function AdminOrdersPage() {
 
     fetchOrders();
   }, []);
-  
+
   const updatePayment = async (
     mongoId: string,
     payment: "paid" | "unpaid" | "rejected"
@@ -73,6 +73,31 @@ export default function AdminOrdersPage() {
           Manage Orders
         </h1>
 
+        <div className="flex items-center justify-between mt-5 mb-6">
+
+          
+          <div
+            className="hidden h-12 w-12 justify-center sm:inline-flex items-center bg-emerald-600 rounded-full hover:scale-105 cursor-pointer transition"
+            onClick={() => router.push("/admin")}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+              <path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" />
+            </svg>
+          </div>
+
+         
+          <div
+            className="hidden h-12 w-12 justify-center sm:inline-flex items-center bg-emerald-600 rounded-full hover:scale-105 cursor-pointer transition"
+            onClick={() => router.refresh()}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+              <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z" />
+            </svg>
+          </div>
+
+        </div>
+
+
         {loading ? (
           <p className="text-center text-gray-500">Loading…</p>
         ) : orders.length === 0 ? (
@@ -94,13 +119,12 @@ export default function AdminOrdersPage() {
                   </div>
 
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      order.payment === "paid"
-                        ? "bg-green-100 text-green-700"
-                        : order.payment === "rejected"
+                    className={`px-3 py-1 rounded-full text-xs font-semibold ${order.payment === "paid"
+                      ? "bg-green-100 text-green-700"
+                      : order.payment === "rejected"
                         ? "bg-red-100 text-red-700"
                         : "bg-yellow-100 text-yellow-700"
-                    }`}
+                      }`}
                   >
                     {order.payment}
                   </span>

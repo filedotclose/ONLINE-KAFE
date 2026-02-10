@@ -37,7 +37,7 @@ export default function Menu() {
         setItems(data.cat || []);
       } catch (err) {
         console.error("Error fetching categories:", err);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -125,7 +125,7 @@ export default function Menu() {
     setCart(prevCart => prevCart.filter(ci => ci.menuItemId !== menuItemId));
   };
 
-  
+
   const saveCartToBackend = async () => {
     try {
       setSaving(true);
@@ -198,20 +198,31 @@ export default function Menu() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {items.length > 0 ? (
-          items.map(item => 
-            item.available ? (
-            (
+          items.map(item => (
             <div
               key={item._id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition duration-300"
+              className={`bg-white rounded-xl shadow-lg overflow-hidden transition duration-300
+          ${item.available ? "hover:scale-105 hover:shadow-2xl" : "opacity-70"}
+        `}
             >
-              <div className="h-48 w-full overflow-hidden">
+              <div className="h-48 w-full overflow-hidden relative">
                 <img
                   src={`/${item.imageUrl}`}
                   alt={item.name}
-                  className="w-full h-full object-cover"
+                  className={`w-full h-full object-cover transition
+              ${!item.available ? "grayscale" : ""}
+            `}
                 />
+
+                {!item.available && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <span className="text-white font-semibold text-lg">
+                      Out of Stock
+                    </span>
+                  </div>
+                )}
               </div>
+
               <div className="p-5 flex flex-col justify-between h-52">
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">
@@ -221,31 +232,35 @@ export default function Menu() {
                     {item.description || "Delicious and freshly prepared!"}
                   </p>
                 </div>
+
                 <div className="flex items-center justify-between mt-4">
                   <span className="text-lg font-semibold text-emerald-600">
                     ₹{item.price}
                   </span>
+
                   <button
                     onClick={() => addToCart(item)}
-                    className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg shadow-md transition duration-300"
+                    disabled={!item.available}
+                    className={`px-4 py-2 rounded-lg shadow-md transition duration-300
+                ${item.available
+                        ? "bg-emerald-500 hover:bg-emerald-600 text-white"
+                        : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                      }
+              `}
                   >
                     Add to Cart
                   </button>
                 </div>
               </div>
             </div>
-          )) : (
-              <div>
-                <p>Out of stock</p>
-              </div>
-          )
-        )
+          ))
         ) : (
           <p className="text-center text-gray-500 col-span-full">
             No items found in this category.
           </p>
         )}
       </div>
+
       {/* button to move to cart */}
       <div className="w-full flex justify-center items-center mt-6">
         <button

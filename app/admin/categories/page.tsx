@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
-
+import { useRouter } from "next/navigation";
 export default function AdminPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newName, setNewName] = useState("");
@@ -10,7 +10,7 @@ export default function AdminPage() {
   const [deleteName, setDeleteName] = useState("");
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
-
+  const router = useRouter();
   const fetchCategories = async () => {
     try {
       const res = await fetch("/api/category");
@@ -32,12 +32,13 @@ export default function AdminPage() {
       setMessage("⚠️ Please fill in all fields.");
       return;
     }
-    const token  = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const res = await fetch("/api/category/Insert", {
       method: "POST",
-      headers: { 
-        "authorization" : `Bearer ${token}`,
-        "Content-Type": "application/json" },
+      headers: {
+        "authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ name: newName, icon: newIcon }),
     });
 
@@ -59,9 +60,10 @@ export default function AdminPage() {
     const token = localStorage.getItem("token");
     const res = await fetch("/api/category/delete", {
       method: "DELETE",
-      headers: { 
-        "authorization" : `Bearer ${token}`,
-        "Content-Type": "application/json" },
+      headers: {
+        "authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({ name: deleteName }),
     });
 
@@ -83,6 +85,13 @@ export default function AdminPage() {
           Admin Dashboard
         </h1>
 
+        <div className="hidden h-12 w-12 sm:flex justify-center items-center bg-emerald-600  mt-5 rounded-full hover:scale-105 cursor-pointer"
+          onClick={() => {
+            router.push('/admin');
+          }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M440-240 200-480l240-240 56 56-183 184 183 184-56 56Zm264 0L464-480l240-240 56 56-183 184 183 184-56 56Z" /></svg>
+        </div>
         {/* Feedback */}
         {message && (
           <div className="mb-6 text-center">
