@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { connectDB } from "../../mongodb";
 import order from "@/models/order";
 import { decodedToken } from "../../auth";
-import { NextServer } from "next/dist/server/next";
+
 
 export async function GET(req : NextRequest){
     await connectDB();
@@ -14,7 +14,7 @@ export async function GET(req : NextRequest){
 
     try{
 
-        const orders = await order.find({});
+        const orders = await order.find({}).sort({iat : -1});
         if(!orders){
             return NextResponse.json({error : "cannot find orders"},{status : 500});
         }
